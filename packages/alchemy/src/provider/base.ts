@@ -13,17 +13,17 @@ import {
   optimism,
   optimismGoerli,
 } from "viem/chains";
-import { SupportedChains } from "./chains.js";
-import { withAlchemyGasFeeEstimator } from "./middleware/gas-fees.js";
+import { SupportedChains } from "../chains.js";
+import { withAlchemyGasFeeEstimator } from "../middleware/gas-fees.js";
 import {
   withAlchemyGasManager,
   type AlchemyGasManagerConfig,
-} from "./middleware/gas-manager.js";
+} from "../middleware/gas-manager.js";
 import {
   AlchemyProviderConfigSchema,
   AlchemySdkClientSchema,
-} from "./schema.js";
-import type { AlchemyProviderConfig } from "./type.js";
+} from "../schema.js";
+import type { AlchemyProviderConfig } from "../type.js";
 
 export class AlchemyProvider extends SmartAccountProvider<HttpTransport> {
   private pvgBuffer: bigint;
