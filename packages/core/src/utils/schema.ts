@@ -18,3 +18,12 @@ export const ChainSchema = z.custom<Chain>((chain) => {
     return false;
   }
 });
+
+export const PercentageSchema = z.object({
+  /**
+   * Percent value between 1 and 1000 inclusive for maxPriorityFeePerGas estimate added buffer.
+   * maxPriorityFeePerGasBid is set to the max between the buffer "added" priority fee estimate and
+   * the minPriorityFeePerBid (default: 33)
+   */
+  percentage: z.number().min(1).max(1000).default(33),
+});

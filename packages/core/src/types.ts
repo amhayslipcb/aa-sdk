@@ -1,4 +1,6 @@
 import type { Address, Hash } from "viem";
+import type { z } from "zod";
+import type { PercentageSchema } from ".";
 
 export type Hex = `0x${string}`;
 export type EmptyHex = `0x`;
@@ -7,6 +9,7 @@ export type EmptyHex = `0x`;
 export type PromiseOrValue<T> = T | Promise<T>;
 export type BigNumberish = string | bigint | number;
 export type BytesLike = Uint8Array | string;
+export type Percentage = z.infer<typeof PercentageSchema>;
 
 export interface UserOperationCallData {
   /* the target of the call */
@@ -19,12 +22,18 @@ export interface UserOperationCallData {
 
 export type BatchUserOperationCallData = UserOperationCallData[];
 
-export type UserOperationOverrides = Partial<
-  Pick<
-    UserOperationStruct,
-    "maxFeePerGas" | "maxPriorityFeePerGas" | "paymasterAndData"
-  >
->;
+export type UserOperationOverrides = Partial<{
+  maxFeePerGas: UserOperationStruct["maxFeePerGas"] | Percentage;
+  maxPriorityFeePerGas:
+    | UserOperationStruct["maxPriorityFeePerGas"]
+    | Percentage;
+  callGasLimit?: UserOperationStruct["callGasLimit"] | Percentage;
+  verificationGasLimit?:
+    | UserOperationStruct["verificationGasLimit"]
+    | Percentage;
+  preVerificationGas?: UserOperationStruct["preVerificationGas"] | Percentage;
+  paymasterAndData?: UserOperationStruct["paymasterAndData"];
+}>;
 
 // represents the request as it needs to be formatted for RPC requests
 export interface UserOperationRequest {
