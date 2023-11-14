@@ -3,17 +3,19 @@ import {
   type SignTypedDataParams,
   type SmartAccountSigner,
 } from "@alchemy/aa-core";
-import { Address as zAddress } from "abitype/zod";
 import { toBytes } from "viem";
 import { z } from "zod";
-import { MultiOwnerPlugin } from "./plugin.js";
+import { MultiOwnerPlugin, zMultiOwnerPluginParams } from "./plugin.js";
 
-export const zMultiOwnerPluginParams = z.object({
-  pluginAddress: zAddress,
-  signer: SignerSchema,
-});
+export const zMultiOwnerPluginSignerParams = z
+  .object({
+    signer: SignerSchema,
+  })
+  .and(zMultiOwnerPluginParams);
 
-export type MultiOwnerPluginParams = z.infer<typeof zMultiOwnerPluginParams>;
+export type MultiOwnerPluginSignerParams = z.infer<
+  typeof zMultiOwnerPluginSignerParams
+>;
 
 export class MultiOwnerPluginSigner
   implements SmartAccountSigner<SmartAccountSigner>
@@ -22,11 +24,12 @@ export class MultiOwnerPluginSigner
   inner: SmartAccountSigner<any>;
   plugin: MultiOwnerPlugin;
 
-  constructor(params_: MultiOwnerPluginParams) {
-    const { signer, pluginAddress } = zMultiOwnerPluginParams.parse(params_);
+  constructor(params_: MultiOwnerPluginSignerParams) {
+    const { signer, ...pluginParams } =
+      zMultiOwnerPluginSignerParams.parse(params_);
     this.signerType = `multi-owner:${signer.signerType}`;
     this.inner = signer;
-    this.plugin = new MultiOwnerPlugin(pluginAddress);
+    this.plugin = new MultiOwnerPlugin(pluginParams);
   }
 
   // This returns the address of the current owner, not all owners

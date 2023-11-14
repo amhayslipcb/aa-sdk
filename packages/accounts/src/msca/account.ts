@@ -48,7 +48,8 @@ export class ModularSmartContractAccount<
   }
 
   getDummySignature(): Hex {
-    throw new Error("Method not implemented.");
+    // NOTE: this only works for ECDSA based validators
+    return "0xfffffffffffffffffffffffffffffff0000000000000000000000000000000007aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1c";
   }
 
   async encodeExecute(target: Address, value: bigint, data: Hex): Promise<Hex> {
