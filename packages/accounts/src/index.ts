@@ -20,3 +20,11 @@ export type { KernelBaseValidatorParams } from "./kernel-zerodev/validator/base.
 //light-account exports
 export { LightSmartContractAccount } from "./light-account/account.js";
 export { getDefaultLightAccountFactoryAddress } from "./light-account/utils.js";
+
+// msca exports
+export { ModularSmartContractAccount } from "./msca/account.js";
+export type { ModularSmartContractAccountParams } from "./msca/account.js";
+export {
+  MultiOwnerPlugin,
+  MultiOwnerPluginSigner,
+} from "./msca/plugins/multi-owner/index.js";
