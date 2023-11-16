@@ -18,6 +18,7 @@ import {
 import { z } from "zod";
 import { IStandardExecutorAbi } from "./abis/IStandardExecutor.js";
 import { MultiOwnerMSCAFactoryAbi } from "./abis/MultiOwnerMSCAFactory.js";
+import type { Plugin } from "./plugins/types.js";
 
 export const createModularSmartContractAccountSchema = <
   TTransport extends SupportedTransports = Transport
@@ -100,4 +101,10 @@ export class ModularSmartContractAccount<
       }),
     ]);
   }
+
+  extendWithPluginMethods = <D>(plugin: Plugin<D>): this & D => {
+    const methods = plugin.decorators;
+
+    return Object.assign(this, methods);
+  };
 }
